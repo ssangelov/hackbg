@@ -1,0 +1,57 @@
+package bg.user.servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
+import javax.servlet.ServletException;
+import javax.servlet.ServletResponse;
+import javax.servlet.ServletResponseWrapper;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/HTTPLogger")
+public class HTTPLogger extends HttpServlet  {
+	private static final long serialVersionUID = 1L;
+       
+    public HTTPLogger() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	}
+
+	public void log(int level, String message, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		TimeZone timeZone = TimeZone.getTimeZone("UTC");
+	    DateFormat dateFormat = new SimpleDateFormat("::yyyy-MM-dd'T':HH'+'mm:ms::");
+	    dateFormat.setTimeZone(timeZone);
+	    String isoTimestap = dateFormat.format(new Date());
+		
+	    PrintWriter write =response.getWriter();
+		write.append("<hmtl><head><title>Logger Page</title></head><body>");
+	    
+		if(level==1){
+			write.append("<h2>INFO " + isoTimestap+ " " + message + "</h2>");
+		} else if(level ==2){
+			write.append("<h2>WARNING " + isoTimestap+ " " + message + "</h2>");
+		} else if (level ==3){
+			write.append("<h2>PLSCHECKFFS " + isoTimestap+ " " + message + "</h2>");
+		} else {
+			write.append("Please choose 1 ,2 or 3 ");
+		}
+		
+		write.append("</body></html>");
+		response.sendRedirect("http:\\hackbulgaria.com");
+	}
+
+
+}
