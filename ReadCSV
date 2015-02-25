@@ -1,0 +1,59 @@
+package calc;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class ReadCSV {
+
+	public static void main(String[] args) {
+		
+		
+		String csvFile = "D:\\text.txt";
+		BufferedReader br = null;
+		String line = "";
+		String separator = ",";
+		
+		try {
+			
+			br = new BufferedReader(new FileReader(csvFile));
+			int count = 0;
+			//select by id
+			while( (line = br.readLine())!= null){
+				String [] towns = line.split(separator);
+				
+				if(count==1){
+					System.out.println("|--|");
+				}
+				
+				System.out.println("|" +towns[0]+"|");
+				
+				count++;
+			}
+			
+			//show
+			br = new BufferedReader(new FileReader(csvFile));
+			line = br.readLine();
+			String [] show = line.split(separator); 
+
+			for ( String name : show){
+				System.out.print(name + " ");
+			}
+			
+		}catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+}
